@@ -37,3 +37,68 @@ void UGoblinWalletComponent::SetupGoblinWallet(int StartingGoblinBucks)
 	SetHeldGoblinBucks(StartingGoblinBucks);
 }
 
+int UGoblinWalletComponent::GetHeldGoblinChips(ECasinoChipsType typeOfChip)
+{
+	int currencyToReturn = 0;
+	if (typeOfChip == ECasinoChipsType::CASINO1)
+	{
+		currencyToReturn = m_HeldGoblinChips_C1;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO2)
+	{
+		currencyToReturn = m_HeldGoblinChips_C2;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO3)
+	{
+		currencyToReturn = m_HeldGoblinChips_C3;
+	}
+	return currencyToReturn;
+}
+
+void UGoblinWalletComponent::SetHeldGoblinChips(int NewGoblinChips, ECasinoChipsType typeOfChip)
+{
+	if (typeOfChip == ECasinoChipsType::CASINO1)
+	{
+		m_HeldGoblinChips_C1 = NewGoblinChips;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO2)
+	{
+		m_HeldGoblinChips_C2 = NewGoblinChips;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO3)
+	{
+		 m_HeldGoblinChips_C3 = NewGoblinChips;
+	}
+}
+
+void UGoblinWalletComponent::AddGoblinChips(int NewGoblinChips, ECasinoChipsType typeOfChip)
+{
+	if (typeOfChip == ECasinoChipsType::CASINO1)
+	{
+		m_HeldGoblinChips_C1 += NewGoblinChips;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO2)
+	{
+		m_HeldGoblinChips_C2 += NewGoblinChips;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO3)
+	{
+		m_HeldGoblinChips_C3 += NewGoblinChips;
+	}
+}
+
+void UGoblinWalletComponent::RemoveGoblinChips(int GoblinChipsToRemove, ECasinoChipsType typeOfChip)
+{
+	if (typeOfChip == ECasinoChipsType::CASINO1)
+	{
+		m_HeldGoblinChips_C1 -= GoblinChipsToRemove;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO2)
+	{
+		m_HeldGoblinChips_C2 -= GoblinChipsToRemove;
+	}
+	else if (typeOfChip == ECasinoChipsType::CASINO3)
+	{
+		m_HeldGoblinChips_C3 -= GoblinChipsToRemove;
+	}
+}

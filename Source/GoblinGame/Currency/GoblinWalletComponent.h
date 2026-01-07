@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "../GeneralGame/GoblinGamblingEnums.h"
 #include "GoblinWalletComponent.generated.h"
 
 
@@ -36,16 +37,36 @@ public:
 
 	//Goblin Chip Functions
 
-	const int GetHeldGoblinChips() { return m_HeldGoblinChips; };
-	void SetHeldGoblinChips(int NewGoblinChips) { m_HeldGoblinChips = NewGoblinChips; };
-	void AddGoblinChips(int NewGoblinChips) { m_HeldGoblinChips += NewGoblinChips; };
-	void RemoveGoblinChips(int GoblinChipsToRemove) { m_HeldGoblinChips -= GoblinChipsToRemove; };
+	int GetHeldGoblinChips(ECasinoChipsType typeOfChip);
+	void SetHeldGoblinChips(int NewGoblinChips, ECasinoChipsType typeOfChip);
+	void AddGoblinChips(int NewGoblinChips, ECasinoChipsType typeOfChip);
+	void RemoveGoblinChips(int GoblinChipsToRemove, ECasinoChipsType typeOfChip);
 #pragma endregion
 
 #pragma region Member Variables
 private:
+	//Goblin Bucks
 	int m_HeldGoblinBucks;
-	int m_HeldGoblinChips;
+
+	//Goblin Chips | C1 = Casino 1, etc
+	int m_HeldGoblinChips_C1;
+	int m_HeldGoblinChips_C2;
+	int m_HeldGoblinChips_C3;
+
 
 #pragma endregion
 };
+
+
+//class GOBLINGAME_API GoblinChips
+//{
+//public:
+//	GoblinChips();
+//	~GoblinChips();
+//
+//	UPROPERTY(BlueprintReadWrite, Replicated)
+//	ECasinoChipsType TypeOfChip;
+//
+//	UPROPERTY(BlueprintReadWrite, Replicated)
+//	ECasinoChipValue ValueOfChip;
+//};
