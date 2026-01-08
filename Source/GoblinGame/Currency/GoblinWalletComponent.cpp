@@ -11,6 +11,11 @@ UGoblinWalletComponent::UGoblinWalletComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+
+	m_HeldGoblinBucks = 100;
+	m_HeldGoblinChips_C1 = 0;
+	m_HeldGoblinChips_C2 = 0;
+	m_HeldGoblinChips_C3 = 0;
 }
 
 

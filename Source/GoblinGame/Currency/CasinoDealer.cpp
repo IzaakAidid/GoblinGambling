@@ -4,7 +4,7 @@
 #include "CasinoDealer.h"
 #include "GoblinWalletComponent.h"
 #include "Components/BoxComponent.h"
-#include "../GeneralGame/GoblinGamblingEnums.h"
+#include "../Player/GoblinGambline_PlayerBase.h"
 
 // Sets default values
 ACasinoDealer::ACasinoDealer()
@@ -49,11 +49,27 @@ void ACasinoDealer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 {
 	//player is close enough to interact
 	int x = 2; //debug
+	if (AGoblinGambline_PlayerBase* temp = Cast<AGoblinGambline_PlayerBase>(OtherActor))
+	{
+		temp->PlayerWallet->AddGoblinBucks(524);
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Green, FString::Printf(TEXT("Added goblin bucks to player wallet, new gobbo bucks: %i"), temp->PlayerWallet->GetHeldGoblinBucks()));
+		}
+	}
+	//if ();
 }
 
 void ACasinoDealer::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	//player has left the interaction zone
 	int x = 2; //debug
+	if (AGoblinGambline_PlayerBase* temp = Cast<AGoblinGambline_PlayerBase>(OtherActor))
+	{
+		temp->PlayerWallet->AddGoblinChips(256,ECasinoChipsType::CASINO1);
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Added goblin chips to player wallet, new gobbo chips: %i"), temp->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO1)));
+		}
+	}
 }
-

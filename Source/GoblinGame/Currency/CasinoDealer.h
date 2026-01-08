@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../GeneralGame/GoblinGamblingEnums.h"
 #include "CasinoDealer.generated.h"
 
 class UBoxComponent;
@@ -35,6 +36,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 	UBoxComponent* InteractionCollisionBox;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wallet)
+	class UGoblinWalletComponent* DealerWallet;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wallet)
+	ECasinoChipsType CasinoChipsType;
+
 #pragma region Functions
 
 	void ConvertBucksToChips(int BucksToConvert);
@@ -47,9 +54,7 @@ public:
 
 #pragma endregion
 
-#pragma region Member Variables
-private:
-	class UGoblinWalletComponent* DealerWallet;
+#pragma region Member Variables	
 
 #pragma endregion
 };
