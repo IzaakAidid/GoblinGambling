@@ -81,4 +81,8 @@ public:
 	void PlayerJump();
 	void PlayerInteract();
 	void PlayerZoom(const FInputActionValue& Value);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
+	class UGoblinWalletComponent* PlayerWallet;
+
 };

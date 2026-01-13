@@ -9,6 +9,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "../Currency/GoblinWalletComponent.h"
 
 /*stuff for general use*/
 #include "Kismet/KismetMathLibrary.h"
@@ -36,6 +37,7 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 	PlayerCamera->SetupAttachment(CameraSpringArm);
 	PlayerCamera->bUsePawnControlRotation = false;
 
+	PlayerWallet = CreateDefaultSubobject<UGoblinWalletComponent>(TEXT("PlayerWallet"));
 
 }
 
