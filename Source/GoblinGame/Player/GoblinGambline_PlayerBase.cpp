@@ -10,7 +10,6 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../Currency/GoblinWalletComponent.h"
-#include "GoblinPlayerHUD.h"
 
 /*stuff for general use*/
 #include "Kismet/KismetMathLibrary.h"

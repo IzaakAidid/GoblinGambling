@@ -26,5 +26,24 @@ protected:
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayerUI, meta = (AllowPrivateAccess = "true"))
-	class UUserWidget* pGameUI;
+	class UCustomGoblinGameUserWidget* pGameUI;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayerData, meta = (AllowPrivateAccess = "true"))
+	//class AGoblinGambline_PlayerBase* pOwningPlayer;
+	//
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayerData, meta = (AllowPrivateAccess = "true"))
+	//int NumOfGoblinBucks;
+	//
+	//UFUNCTION(BlueprintCallable)
+	//int GetGoblinBucksForUI();
+	//
+	//UFUNCTION(BlueprintCallable)
+	//int GetGoblinChipsCasino1ForUI();
+	//
+	//UFUNCTION(BlueprintCallable)
+	//int GetGoblinChipsCasino2ForUI();
+	//
+	//UFUNCTION(BlueprintCallable)
+	//int GetGoblinChipsCasino3ForUI();
+
 };

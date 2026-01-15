@@ -80,7 +80,7 @@ void ACasinoDealer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 	int x = 2; //debug
 	if (AGoblinGambline_PlayerBase* temp = Cast<AGoblinGambline_PlayerBase>(OtherActor))
 	{
-		temp->PlayerWallet->AddGoblinBucks(10);
+		//temp->PlayerWallet->AddGoblinBucks(10);
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Green, FString::Printf(TEXT("----------------------------------------------------------------------")));
@@ -98,7 +98,7 @@ void ACasinoDealer::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	int x = 2; //debug
 	if (AGoblinGambline_PlayerBase* temp = Cast<AGoblinGambline_PlayerBase>(OtherActor))
 	{
-		temp->PlayerWallet->AddGoblinChips(10,ECasinoChipsType::CASINO1);
+		//temp->PlayerWallet->AddGoblinChips(10,ECasinoChipsType::CASINO1);
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(2, 15.0f, FColor::Magenta, FString::Printf(TEXT("----------------------------------------------------------------------")));
