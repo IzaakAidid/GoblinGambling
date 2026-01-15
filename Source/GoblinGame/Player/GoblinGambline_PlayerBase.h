@@ -13,6 +13,8 @@ class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
 class USpringArmComponent;
+class USphereComponent;
+class UStreetBeggingComponent;
 
 
 UCLASS()
@@ -39,6 +41,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCamera;
 
+	/** Street Begging */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = StreetBegging, meta = (AllowPrivateAccess = "true"))
+	USphereComponent* StreetBeggingRadius;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = StreetBegging, meta = (AllowPrivateAccess = "true"))
+	UStreetBeggingComponent* StreetBeggingComp;
+
 #pragma endregion
 
 #pragma region Player Inputs
@@ -63,6 +72,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ZoomAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* BegAction;
+
 #pragma endregion
 
 
@@ -81,6 +93,7 @@ public:
 	void PlayerJump();
 	void PlayerInteract();
 	void PlayerZoom(const FInputActionValue& Value);
+    void PlayerBeg();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
 	class UGoblinWalletComponent* PlayerWallet;
