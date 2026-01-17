@@ -2,21 +2,9 @@
 
 
 #include "CustomGoblinGameUserWidget.h"
-#include "GoblinGambline_PlayerBase.h"
+#include "../Player/GoblinGambline_PlayerBase.h"
 #include "../Currency/GoblinWalletComponent.h"
-#include "GoblinPlayerHUD.h"
-
-
-//UCustomGoblinGameUserWidget::UCustomGoblinGameUserWidget()
-//{
-//
-//}
-//
-//void UCustomGoblinGameUserWidget::BeginPlay()
-//{
-//	Super::BeginPlay();
-//
-//}
+#include "../Player/GoblinPlayerHUD.h"
 
 int UCustomGoblinGameUserWidget::GetGoblinBucksForUI()
 {

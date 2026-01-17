@@ -38,6 +38,7 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 	PlayerCamera->bUsePawnControlRotation = false;
 
 	PlayerWallet = CreateDefaultSubobject<UGoblinWalletComponent>(TEXT("PlayerWallet"));
+	PlayerWallet->SetupGoblinWallet(200);
 
 }
 
@@ -139,3 +140,12 @@ void AGoblinGambline_PlayerBase::PlayerZoom(const FInputActionValue& Value)
 	}
 }
 
+
+APlayerController* AGoblinGambline_PlayerBase::GetPlayerController()
+{
+	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		return PlayerController;
+	}
+	return nullptr;
+}

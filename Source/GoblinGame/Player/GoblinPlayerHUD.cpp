@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Currency/GoblinWalletComponent.h"
-#include "CustomGoblinGameUserWidget.h"
+#include "../UI/CustomGoblinGameUserWidget.h"
 
 AGoblinPlayerHUD::AGoblinPlayerHUD()
 {
