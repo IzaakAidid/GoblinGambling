@@ -6,6 +6,11 @@
 #include "GameFramework/Character.h"
 #include "StreetNPC_Base.generated.h"
 
+/*
+* TODO:
+* - Hook up to a behavior tree (very simple: walk to despawn point, if in range of player do a chance to donate then go back to walking to despawn point)
+*/
+
 class UGoblinWalletComponent;
 
 UCLASS(Blueprintable)
@@ -26,6 +31,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Begging")
     float ChanceToGive;
+
+	float timer = 0.0f;
 
 public:	
 	// Called every frame

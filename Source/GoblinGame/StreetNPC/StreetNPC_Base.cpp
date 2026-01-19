@@ -17,9 +17,9 @@ void AStreetNPC_Base::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	timer = 0.0f;
 }
 
-float timer; //remove this later, just need basic movement to test
 // Called every frame
 void AStreetNPC_Base::Tick(float DeltaTime)
 {
