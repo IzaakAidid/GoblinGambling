@@ -53,10 +53,14 @@ void AStreetNPCSpawner::SpawnStreetNPC()
             FMath::RandRange(-SpawnArea->GetScaledBoxExtent().X, SpawnArea->GetScaledBoxExtent().X),
             FMath::RandRange(-SpawnArea->GetScaledBoxExtent().Y, SpawnArea->GetScaledBoxExtent().Y),
             0.0f),
-        FRotator(0.0f, -180.0f, 0.0f)
+        SpawnArea->GetComponentRotation()
     );
 
-    AStreetNPC_Base* NPCBase = Cast<AStreetNPC_Base>(NPC);
+    if (AStreetNPC_Base* NPCBase = Cast<AStreetNPC_Base>(NPC))
+    {
+        NPCBase->SpawnDefaultController();
+        NPCBase->SetDespawnPoint(DespawnArea->GetComponentLocation());
+    }
 
     //NPCBase->GetController()->Moveto
 }

@@ -32,11 +32,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Begging")
     float ChanceToGive;
 
-	float timer = 0.0f;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	void GetBeggedAt(UGoblinWalletComponent* playerWallet);
+
+	void SetDespawnPoint(FVector location);
 };

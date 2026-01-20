@@ -3,6 +3,14 @@
 
 #include "StreetNPC_Base.h"
 #include "../Currency/GoblinWalletComponent.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
+/*
+* TODO:
+* - move the actual adding of funds to player wallet to the behavior tree
+*/
 
 // Sets default values
 AStreetNPC_Base::AStreetNPC_Base()
@@ -16,8 +24,7 @@ AStreetNPC_Base::AStreetNPC_Base()
 void AStreetNPC_Base::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	timer = 0.0f;
+
 }
 
 // Called every frame
@@ -25,17 +32,6 @@ void AStreetNPC_Base::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	timer += DeltaTime;
-
-	if (timer < 5.0f)
-	{
-		AddActorWorldOffset(GetActorForwardVector() * 2.0f);
-	}
-	else
-	{
-		timer = 0.0f;
-		AddActorWorldRotation(FRotator(0.0f, 180.0f, 0.0f));
-	}
 }
 
 void AStreetNPC_Base::GetBeggedAt(UGoblinWalletComponent* playerWallet)
@@ -45,6 +41,10 @@ void AStreetNPC_Base::GetBeggedAt(UGoblinWalletComponent* playerWallet)
 	if (random <= ChanceToGive)
 	{
 		playerWallet->AddGoblinBucks(AmountToGive);
+
+		UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsObject(FName("PlayerLocation"), playerWallet->GetOwner());
+
+		GetComponentByClass<UCharacterMovementComponent>()->StopActiveMovement();
 
 		if (GEngine)
 		{
@@ -58,4 +58,9 @@ void AStreetNPC_Base::GetBeggedAt(UGoblinWalletComponent* playerWallet)
 			GEngine->AddOnScreenDebugMessage(555, 3.0f, FColor::Red, FString::Printf(TEXT("fuck off")));
 		}
 	}
+}
+
+void AStreetNPC_Base::SetDespawnPoint(FVector location)
+{
+	UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsVector(FName("DespawnPoint"), location);
 }
