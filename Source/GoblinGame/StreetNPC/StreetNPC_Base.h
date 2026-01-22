@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../ObjectPooling/ObjectPooledActor.h"
 #include "StreetNPC_Base.generated.h"
 
 /*
@@ -12,9 +13,10 @@
 */
 
 class UGoblinWalletComponent;
+class AStreetNPC_Controller;
 
 UCLASS(Blueprintable)
-class GOBLINGAME_API AStreetNPC_Base : public ACharacter
+class GOBLINGAME_API AStreetNPC_Base : public ACharacter, public IObjectPooledActor
 {
 	GENERATED_BODY()
 
@@ -32,6 +34,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Begging")
     float ChanceToGive;
 
+	AStreetNPC_Controller* NPCController;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -39,4 +43,9 @@ public:
 	void GetBeggedAt(UGoblinWalletComponent* playerWallet);
 
 	void SetDespawnPoint(FVector location);
+
+    // IObjectPooledActor interface
+    virtual void ActivateFromPool() override;
+
+    virtual void ReturnToPool() override;
 };

@@ -4,6 +4,7 @@
 #include "../StreetNPC/StreetNPCSpawner.h"
 #include "Components/BoxComponent.h"
 #include "../StreetNPC/StreetNPC_Base.h"
+#include "../ObjectPooling/GoblinGameObjectPool.h"
 
 // Sets default values
 AStreetNPCSpawner::AStreetNPCSpawner()
@@ -25,6 +26,8 @@ AStreetNPCSpawner::AStreetNPCSpawner()
 void AStreetNPCSpawner::BeginPlay()
 {
 	Super::BeginPlay();
+
+    GetWorld()->GetSubsystem<UGoblinGameObjectPool>()->AddCollectionToPool(NPCToSpawn, NPCsToPool);
 	
     SpawnTimer = SpawnDelay + FMath::RandRange(-SpawnDeviation, SpawnDeviation);
 
@@ -47,8 +50,12 @@ void AStreetNPCSpawner::Tick(float DeltaTime)
 
 void AStreetNPCSpawner::SpawnStreetNPC()
 {
-    AActor* NPC = GetWorld()->SpawnActor<AStreetNPC_Base>(
-        NPCClasses.FindRef("Regular"),
+    AActor* NPC = GetWorld()->GetSubsystem<UGoblinGameObjectPool>()->GetPooledObject(NPCToSpawn);
+
+    if (!NPC)
+        return;
+
+    NPC->SetActorLocationAndRotation(
         SpawnArea->GetComponentLocation() + FVector(
             FMath::RandRange(-SpawnArea->GetScaledBoxExtent().X, SpawnArea->GetScaledBoxExtent().X),
             FMath::RandRange(-SpawnArea->GetScaledBoxExtent().Y, SpawnArea->GetScaledBoxExtent().Y),
@@ -57,18 +64,13 @@ void AStreetNPCSpawner::SpawnStreetNPC()
     );
 
     if (AStreetNPC_Base* NPCBase = Cast<AStreetNPC_Base>(NPC))
-    {
-        NPCBase->SpawnDefaultController();
         NPCBase->SetDespawnPoint(DespawnArea->GetComponentLocation());
-    }
-
-    //NPCBase->GetController()->Moveto
 }
 
 void AStreetNPCSpawner::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
     if (Cast<AStreetNPC_Base>(OtherActor))
     {
-        OtherActor->Destroy();
+        GetWorld()->GetSubsystem<UGoblinGameObjectPool>()->ReturnObjectToPool(OtherActor);
     }
 }

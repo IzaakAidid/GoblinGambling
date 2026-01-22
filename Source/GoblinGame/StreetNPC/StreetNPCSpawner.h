@@ -29,17 +29,20 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn Area")
     UBoxComponent* SpawnArea;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn Area")
     UBoxComponent* DespawnArea;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
-    TMap<FString, TSubclassOf<AStreetNPC_Base>> NPCClasses;
+    TSubclassOf<AStreetNPC_Base> NPCToSpawn;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
-    TMap<FString, float> NPCSpawnChances;
+	int NPCsToPool;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
+    float SpawnChance;
 
 	float SpawnTimer;
 

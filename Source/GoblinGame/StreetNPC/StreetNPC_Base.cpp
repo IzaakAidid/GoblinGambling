@@ -6,6 +6,7 @@
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "../StreetNPC/StreetNPC_Controller.h"
 
 /*
 * TODO:
@@ -25,6 +26,11 @@ void AStreetNPC_Base::BeginPlay()
 {
 	Super::BeginPlay();
 
+    SpawnDefaultController();
+
+	verify(Controller);
+
+    NPCController = Cast<AStreetNPC_Controller>(GetController());
 }
 
 // Called every frame
@@ -63,4 +69,26 @@ void AStreetNPC_Base::GetBeggedAt(UGoblinWalletComponent* playerWallet)
 void AStreetNPC_Base::SetDespawnPoint(FVector location)
 {
 	UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsVector(FName("DespawnPoint"), location);
+}
+
+//this could be handled in the object pool, but i dont currently have any other use for these functions.
+void AStreetNPC_Base::ActivateFromPool()
+{
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+	if(UBlackboardComponent* BB = UAIBlueprintHelperLibrary::GetBlackboard(this))
+	{ 
+		BB->ClearValue("DespawnPoint");
+	}
+
+	NPCController->StartBehaviorTree();
+}
+
+void AStreetNPC_Base::ReturnToPool()
+{
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+	UAIBlueprintHelperLibrary::GetBlackboard(this)->ClearValue("DespawnPoint");
+
+	NPCController->PauseBehaviorTree();
 }
