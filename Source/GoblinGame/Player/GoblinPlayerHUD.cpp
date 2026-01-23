@@ -1,0 +1,79 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "GoblinPlayerHUD.h"
+#include "GoblinGambline_PlayerBase.h"
+#include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Currency/GoblinWalletComponent.h"
+#include "../UI/CustomGoblinGameUserWidget.h"
+
+AGoblinPlayerHUD::AGoblinPlayerHUD()
+{
+	//pOwningPlayer = nullptr;
+}
+
+void AGoblinPlayerHUD::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (pGameUI)
+	{
+		AGoblinGambline_PlayerBase* tempPlayerPointer = nullptr;
+		//TEMPORARY FIX | NON-NETWORKED
+		tempPlayerPointer = Cast<AGoblinGambline_PlayerBase>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+		if (tempPlayerPointer != nullptr)
+		{
+			pGameUI->pOwningPlayer = tempPlayerPointer;
+		}
+		pGameUI->AddToViewport();
+	}
+}
+
+//int AGoblinPlayerHUD::GetGoblinBucksForUI()
+//{
+//	if (pOwningPlayer)
+//	{
+//		return pOwningPlayer->PlayerWallet->GetHeldGoblinBucks();
+//	}
+//	else
+//	{
+//		return 0;
+//	}
+//}
+//
+//int AGoblinPlayerHUD::GetGoblinChipsCasino1ForUI()
+//{
+//	if (pOwningPlayer)
+//	{
+//		return pOwningPlayer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO1);
+//	}
+//	else
+//	{
+//		return 0;
+//	}
+//}
+//
+//int AGoblinPlayerHUD::GetGoblinChipsCasino2ForUI()
+//{
+//	if (pOwningPlayer)
+//	{
+//		return pOwningPlayer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO2);
+//	}
+//	else
+//	{
+//		return 0;
+//	}
+//}
+//
+//int AGoblinPlayerHUD::GetGoblinChipsCasino3ForUI()
+//{
+//	if (pOwningPlayer)
+//	{
+//		return pOwningPlayer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO3);
+//	}
+//	else
+//	{
+//		return 0;
+//	}
+//}

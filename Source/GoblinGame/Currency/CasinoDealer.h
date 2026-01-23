@@ -42,10 +42,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Wallet)
 	ECasinoChipsType CasinoChipsType;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayerData, meta = (AllowPrivateAccess = "true"))
+	class UCasinoDealerMenuWidget* pMenuWidget;
+
 #pragma region Functions
 
+	UFUNCTION(BlueprintCallable)
 	void ConvertBucksToChips(int BucksToConvert, UGoblinWalletComponent* pPlayerWallet);
+	UFUNCTION(BlueprintCallable)
 	void ConvertChipsToBucks(int ChipsToConvert, UGoblinWalletComponent* pPlayerWallet);
+
+	UFUNCTION(BlueprintCallable)
+	void ConvertALLChipsToBucks(UGoblinWalletComponent* pPlayerWallet);
+
+	UFUNCTION(BlueprintCallable)
+	void ConvertALLBucksToChips(UGoblinWalletComponent* pPlayerWallet);
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
