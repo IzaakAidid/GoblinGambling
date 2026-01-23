@@ -41,6 +41,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(Server, Reliable)
 	void GetBeggedAt(UGoblinWalletComponent* playerWallet);
 
 	void SetDespawnPoint(FVector location);

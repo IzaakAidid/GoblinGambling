@@ -50,7 +50,10 @@ void UStreetBeggingComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp
 {
 	if (AStreetNPC_Base* npc = Cast<AStreetNPC_Base>(OtherActor))
 	{
-        npc->GetBeggedAt(PlayerWallet);
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(555, 3.0f, FColor::Red, FString::Printf(TEXT("can i have some dosh?")));
+
+		npc->GetBeggedAt(PlayerWallet);
 	}
 }
 

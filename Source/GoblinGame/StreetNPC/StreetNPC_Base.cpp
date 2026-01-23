@@ -41,7 +41,7 @@ void AStreetNPC_Base::Tick(float DeltaTime)
 
 }
 
-void AStreetNPC_Base::GetBeggedAt(UGoblinWalletComponent* playerWallet)
+void AStreetNPC_Base::GetBeggedAt_Implementation(UGoblinWalletComponent* playerWallet)
 {
 	float random = FMath::FRandRange(0.0f, 1.0f);
 
@@ -49,11 +49,11 @@ void AStreetNPC_Base::GetBeggedAt(UGoblinWalletComponent* playerWallet)
 	{
 		playerWallet->AddGoblinBucks(AmountToGive);
 
-		UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsObject(FName("PlayerLocation"), playerWallet->GetOwner());
+        UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsObject(FName("PlayerLocation"), playerWallet->GetOwner());
 
-		GetComponentByClass<UCharacterMovementComponent>()->StopActiveMovement();
+        GetComponentByClass<UCharacterMovementComponent>()->StopActiveMovement();
 
-		if (GEngine)
+        if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(555, 3.0f, FColor::Green, FString::Printf(TEXT("heres some dosh")));
 		}

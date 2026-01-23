@@ -31,7 +31,8 @@ void AStreetNPCSpawner::BeginPlay()
 	
     SpawnTimer = SpawnDelay + FMath::RandRange(-SpawnDeviation, SpawnDeviation);
 
-    DespawnArea->OnComponentBeginOverlap.AddDynamic(this, &AStreetNPCSpawner::OnOverlapBegin);
+    if(HasAuthority())
+        DespawnArea->OnComponentBeginOverlap.AddDynamic(this, &AStreetNPCSpawner::OnOverlapBegin);
 }
 
 // Called every frame
@@ -74,8 +75,8 @@ TArray<FVector> AStreetNPCSpawner::CompilePath()
     TArray<FVector> Path;
 
     Path.Add(DespawnArea->GetComponentLocation() + FVector(
-        FMath::RandRange(-DespawnArea->GetScaledBoxExtent().X, DespawnArea->GetScaledBoxExtent().X),
-        FMath::RandRange(-DespawnArea->GetScaledBoxExtent().Y, DespawnArea->GetScaledBoxExtent().Y),
+        FMath::RandRange(-DespawnArea->GetScaledBoxExtent().X * 0.75f, DespawnArea->GetScaledBoxExtent().X * 0.75f),
+        FMath::RandRange(-DespawnArea->GetScaledBoxExtent().Y * 0.75f, DespawnArea->GetScaledBoxExtent().Y * 0.75f),
         0.0f));
 
     for (int i = Waypoints.Num() - 1; i >= 0; --i)
