@@ -42,18 +42,41 @@ void ACasinoDealer::Tick(float DeltaTime)
 
 void ACasinoDealer::ConvertBucksToChips(int BucksToConvert, UGoblinWalletComponent* pPlayerWallet)
 {
-	// remove bucks from wallet
-	pPlayerWallet->RemoveGoblinBucks(BucksToConvert);
-	// add that number back to the wallet as chips
-	pPlayerWallet->AddGoblinChips(BucksToConvert, CasinoChipsType);
+	if (pPlayerWallet->GetHeldGoblinBucks() >= BucksToConvert)
+	{
+		// remove bucks from wallet
+		pPlayerWallet->RemoveGoblinBucks(BucksToConvert);
+		// add that number back to the wallet as chips
+		pPlayerWallet->AddGoblinChips(BucksToConvert, CasinoChipsType);
+	}
+	else
+	{
+		int tempVal = pPlayerWallet->GetHeldGoblinBucks();
+		// remove bucks from wallet
+		pPlayerWallet->RemoveGoblinBucks(tempVal);
+		// add that number back to the wallet as chips
+		pPlayerWallet->AddGoblinChips(tempVal, CasinoChipsType);
+	}
+
 }
 
 void ACasinoDealer::ConvertChipsToBucks(int ChipsToConvert, UGoblinWalletComponent* pPlayerWallet)
 {
-	// remove chips from wallet
-	pPlayerWallet->RemoveGoblinChips(ChipsToConvert, CasinoChipsType);
-	// add that number back to the wallet as bucks
-	pPlayerWallet->AddGoblinBucks(ChipsToConvert);
+	if (pPlayerWallet->GetHeldGoblinChips(CasinoChipsType) >= ChipsToConvert)
+	{
+		// remove chips from wallet
+		pPlayerWallet->RemoveGoblinChips(ChipsToConvert, CasinoChipsType);
+		// add that number back to the wallet as bucks
+		pPlayerWallet->AddGoblinBucks(ChipsToConvert);
+	}
+	else
+	{
+		int tempVal = pPlayerWallet->GetHeldGoblinChips(CasinoChipsType);
+		// remove chips from wallet
+		pPlayerWallet->RemoveGoblinChips(tempVal, CasinoChipsType);
+		// add that number back to the wallet as bucks
+		pPlayerWallet->AddGoblinBucks(tempVal);
+	}
 
 }
 
