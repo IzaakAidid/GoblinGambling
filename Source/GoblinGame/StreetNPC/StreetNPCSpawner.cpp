@@ -64,7 +64,29 @@ void AStreetNPCSpawner::SpawnStreetNPC()
     );
 
     if (AStreetNPC_Base* NPCBase = Cast<AStreetNPC_Base>(NPC))
-        NPCBase->SetDespawnPoint(DespawnArea->GetComponentLocation());
+        NPCBase->SetPath(CompilePath());
+}
+
+//building the path in reverse order so i dont need to keep track of what index of waypoint i need, 
+//i can just pop the last one if there is any and it should be the next one in sequence if i build it correctly here.
+TArray<FVector> AStreetNPCSpawner::CompilePath()
+{
+    TArray<FVector> Path;
+
+    Path.Add(DespawnArea->GetComponentLocation() + FVector(
+        FMath::RandRange(-DespawnArea->GetScaledBoxExtent().X, DespawnArea->GetScaledBoxExtent().X),
+        FMath::RandRange(-DespawnArea->GetScaledBoxExtent().Y, DespawnArea->GetScaledBoxExtent().Y),
+        0.0f));
+
+    for (int i = Waypoints.Num() - 1; i >= 0; --i)
+    {
+        Path.Add(Waypoints[i]->GetComponentLocation() + FVector(
+            FMath::RandRange(-Waypoints[i]->GetScaledBoxExtent().X, Waypoints[i]->GetScaledBoxExtent().X),
+            FMath::RandRange(-Waypoints[i]->GetScaledBoxExtent().Y, Waypoints[i]->GetScaledBoxExtent().Y),
+            0.0f));
+    }
+    
+    return Path;
 }
 
 void AStreetNPCSpawner::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

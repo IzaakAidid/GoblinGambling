@@ -28,7 +28,8 @@ void AStreetNPC_Base::BeginPlay()
 
     SpawnDefaultController();
 
-	verify(Controller);
+	if(HasAuthority())
+		verify(Controller);
 
     NPCController = Cast<AStreetNPC_Controller>(GetController());
 }
@@ -71,14 +72,31 @@ void AStreetNPC_Base::SetDespawnPoint(FVector location)
 	UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsVector(FName("DespawnPoint"), location);
 }
 
-//this could be handled in the object pool, but i dont currently have any other use for these functions.
+//This should always be supplied with the despawn point at minimum, so i dont think a pop safety check is needed.
+void AStreetNPC_Base::SetPath(TArray<FVector> path)
+{
+	NPCPath = path;
+
+	FVector Next = NPCPath.Pop();
+
+	UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsVector(FName("PathLocation"), Next);
+}
+
+void AStreetNPC_Base::UpdatePathLocation()
+{
+	if (NPCPath.Num() != 0)
+	{
+		FVector Next = NPCPath.Pop();
+
+		UAIBlueprintHelperLibrary::GetBlackboard(this)->SetValueAsVector(FName("PathLocation"), Next);
+	}
+}
+
 void AStreetNPC_Base::ActivateFromPool()
 {
-	SetActorHiddenInGame(false);
-	SetActorEnableCollision(true);
 	if(UBlackboardComponent* BB = UAIBlueprintHelperLibrary::GetBlackboard(this))
 	{ 
-		BB->ClearValue("DespawnPoint");
+		BB->ClearValue("PathLocation");
 	}
 
 	NPCController->StartBehaviorTree();
@@ -86,9 +104,7 @@ void AStreetNPC_Base::ActivateFromPool()
 
 void AStreetNPC_Base::ReturnToPool()
 {
-	SetActorHiddenInGame(true);
-	SetActorEnableCollision(false);
-	UAIBlueprintHelperLibrary::GetBlackboard(this)->ClearValue("DespawnPoint");
+	UAIBlueprintHelperLibrary::GetBlackboard(this)->ClearValue("PathLocation");
 
 	NPCController->PauseBehaviorTree();
 }

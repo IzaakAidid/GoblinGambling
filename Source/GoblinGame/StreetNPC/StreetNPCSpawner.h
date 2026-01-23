@@ -29,10 +29,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn Area")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Path")
     UBoxComponent* SpawnArea;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn Area")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Path")
+	TArray<UBoxComponent*> Waypoints;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Path")
     UBoxComponent* DespawnArea;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
@@ -57,6 +60,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SpawnStreetNPC();
+
+	TArray<FVector> CompilePath();
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

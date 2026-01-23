@@ -8,8 +8,7 @@
 #include "StreetNPC_Base.generated.h"
 
 /*
-* TODO:
-* - Hook up to a behavior tree (very simple: walk to despawn point, if in range of player do a chance to donate then go back to walking to despawn point)
+* 
 */
 
 class UGoblinWalletComponent;
@@ -36,6 +35,8 @@ protected:
 
 	AStreetNPC_Controller* NPCController;
 
+	TArray<FVector> NPCPath;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -43,6 +44,11 @@ public:
 	void GetBeggedAt(UGoblinWalletComponent* playerWallet);
 
 	void SetDespawnPoint(FVector location);
+
+	void SetPath(TArray<FVector> path);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdatePathLocation();
 
     // IObjectPooledActor interface
     virtual void ActivateFromPool() override;

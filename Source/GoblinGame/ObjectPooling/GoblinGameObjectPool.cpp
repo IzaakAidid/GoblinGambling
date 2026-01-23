@@ -55,6 +55,10 @@ AActor* UGoblinGameObjectPool::GetPooledObject(UClass* ObjectClass)
     if(Object->Implements<UObjectPooledActor>())
     {
         Cast<IObjectPooledActor>(Object)->ActivateFromPool();
+
+        Object->SetActorHiddenInGame(false);
+        Object->SetActorEnableCollision(true);
+
         return Object;
     }
     else
@@ -97,6 +101,9 @@ void UGoblinGameObjectPool::ReturnObjectToPool(AActor* PooledObject)
     }
 
     TArray<AActor*>& PoolArray = PooledObjects[ObjectClass];
+
+    PooledObject->SetActorHiddenInGame(true);
+    PooledObject->SetActorEnableCollision(false);
 
     PoolArray.Push(PooledObject);
 }
