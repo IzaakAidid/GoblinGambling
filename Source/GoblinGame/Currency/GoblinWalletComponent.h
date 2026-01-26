@@ -46,7 +46,7 @@ public:
 #pragma region Member Variables
 private:
 	//Goblin Bucks
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
 	int m_HeldGoblinBucks;
 
 	//Goblin Chips | C1 = Casino 1, etc

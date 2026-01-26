@@ -2,6 +2,7 @@
 
 
 #include "GoblinWalletComponent.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
 UGoblinWalletComponent::UGoblinWalletComponent()
@@ -9,6 +10,7 @@ UGoblinWalletComponent::UGoblinWalletComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+	SetIsReplicatedByDefault(true);
 
 	// ...
 
@@ -106,4 +108,11 @@ void UGoblinWalletComponent::RemoveGoblinChips(int GoblinChipsToRemove, ECasinoC
 	{
 		m_HeldGoblinChips_C3 -= GoblinChipsToRemove;
 	}
+}
+
+void UGoblinWalletComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UGoblinWalletComponent, m_HeldGoblinBucks);
 }
