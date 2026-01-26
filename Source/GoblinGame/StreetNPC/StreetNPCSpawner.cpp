@@ -29,7 +29,7 @@ void AStreetNPCSpawner::BeginPlay()
 
     GetWorld()->GetSubsystem<UGoblinGameObjectPool>()->AddCollectionToPool(NPCToSpawn, NPCsToPool);
 	
-    SpawnTimer = SpawnDelay + FMath::RandRange(-SpawnDeviation, SpawnDeviation);
+    SpawnTimer = SpawnDelay + FMath::RandRange(-LowerSpawnDeviation, UpperSpawnDeviation);
 
     if(HasAuthority())
         DespawnArea->OnComponentBeginOverlap.AddDynamic(this, &AStreetNPCSpawner::OnOverlapBegin);
@@ -45,7 +45,7 @@ void AStreetNPCSpawner::Tick(float DeltaTime)
     if (SpawnTimer <= 0.0f)
     {
         SpawnStreetNPC();
-        SpawnTimer = SpawnDelay + FMath::RandRange(-SpawnDeviation, SpawnDeviation);
+        SpawnTimer = SpawnDelay + FMath::RandRange(-LowerSpawnDeviation, UpperSpawnDeviation);
     }
 }
 

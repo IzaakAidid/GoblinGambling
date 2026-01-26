@@ -93,6 +93,8 @@ public:
 	void PlayerJump();
 	void PlayerInteract();
 	void PlayerZoom(const FInputActionValue& Value);
+
+    UFUNCTION(Server, Reliable)
     void PlayerBeg();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))

@@ -154,7 +154,7 @@ void AGoblinGambline_PlayerBase::PlayerZoom(const FInputActionValue& Value)
 }
 
 //ideally this is gonna be like a crouch toggle. if the player moves while begging, they stop begging.
-void AGoblinGambline_PlayerBase::PlayerBeg()
+void AGoblinGambline_PlayerBase::PlayerBeg_Implementation()
 {
     StreetBeggingComp->ActivateBegging();
 }

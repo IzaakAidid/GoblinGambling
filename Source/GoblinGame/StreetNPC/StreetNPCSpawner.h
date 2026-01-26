@@ -53,7 +53,10 @@ protected:
 	float SpawnDelay;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Timing")
-	float SpawnDeviation;
+	float UpperSpawnDeviation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawn Timing")
+	float LowerSpawnDeviation;
 
 public:	
 	// Called every frame
