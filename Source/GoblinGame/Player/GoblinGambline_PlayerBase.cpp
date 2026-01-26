@@ -7,9 +7,11 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SphereComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../Currency/GoblinWalletComponent.h"
+#include "../Currency/StreetBeggingComponent.h"
 
 /*stuff for general use*/
 #include "Kismet/KismetMathLibrary.h"
@@ -40,6 +42,13 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 	PlayerWallet = CreateDefaultSubobject<UGoblinWalletComponent>(TEXT("PlayerWallet"));
 	PlayerWallet->SetupGoblinWallet(200);
 
+    StreetBeggingRadius = CreateDefaultSubobject<USphereComponent>(TEXT("StreetBeggingRadius"));
+    StreetBeggingRadius->SetupAttachment(RootComponent);
+    StreetBeggingRadius->SetSphereRadius(300.f); //default number autofill set. could probably change inside street begging component later
+
+    StreetBeggingComp = CreateDefaultSubobject<UStreetBeggingComponent>(TEXT("StreetBeggingComp"));
+    StreetBeggingComp->InitBeggingComponent(StreetBeggingRadius, PlayerWallet);
+	StreetBeggingComp->DeactivateBegging();
 }
 
 // Called when the game starts or when spawned
@@ -82,6 +91,8 @@ void AGoblinGambline_PlayerBase::SetupPlayerInputComponent(UInputComponent* Play
 
 		// try to interact
 		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerZoom);
+
+		EnhancedInputComponent->BindAction(BegAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerBeg);
 	}
 }
 
@@ -94,6 +105,8 @@ void AGoblinGambline_PlayerBase::PlayerMove(const FInputActionValue& Value)
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
 	}
+
+	StreetBeggingComp->DeactivateBegging(); //TODO: Find a way to remove this
 }
 
 void AGoblinGambline_PlayerBase::PlayerLook(const FInputActionValue& Value)
@@ -110,6 +123,7 @@ void AGoblinGambline_PlayerBase::PlayerLook(const FInputActionValue& Value)
 
 void AGoblinGambline_PlayerBase::PlayerJump()
 {
+	StreetBeggingComp->DeactivateBegging(); //TODO: Find a way to remove this
 	Jump();
 }
 
@@ -140,7 +154,6 @@ void AGoblinGambline_PlayerBase::PlayerZoom(const FInputActionValue& Value)
 	}
 }
 
-
 APlayerController* AGoblinGambline_PlayerBase::GetPlayerController()
 {
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -148,4 +161,10 @@ APlayerController* AGoblinGambline_PlayerBase::GetPlayerController()
 		return PlayerController;
 	}
 	return nullptr;
+}
+
+//ideally this is gonna be like a crouch toggle. if the player moves while begging, they stop begging.
+void AGoblinGambline_PlayerBase::PlayerBeg_Implementation()
+{
+    StreetBeggingComp->ActivateBegging();
 }
