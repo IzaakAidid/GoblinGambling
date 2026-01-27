@@ -10,6 +10,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../Currency/GoblinWalletComponent.h"
+#include "GoblinPlayerHUD.h"
 
 /*stuff for general use*/
 #include "Kismet/KismetMathLibrary.h"
@@ -39,6 +40,9 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 
 	PlayerWallet = CreateDefaultSubobject<UGoblinWalletComponent>(TEXT("PlayerWallet"));
 	PlayerWallet->SetupGoblinWallet(200);
+
+	//PlayerHUD = CreateDefaultSubobject<AGoblinPlayerHUD>(TEXT("PlayerHUD"));
+	
 
 }
 
@@ -80,8 +84,13 @@ void AGoblinGambline_PlayerBase::SetupPlayerInputComponent(UInputComponent* Play
 		// try to interact
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerInteract);
 
-		// try to interact
+		// try to zoom
 		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerZoom);
+
+		//UI 
+		// Toggle Pause State
+		EnhancedInputComponent->BindAction(PauseGameAction, ETriggerEvent::Started, this, &AGoblinGambline_PlayerBase::PlayerPauseGame);
+
 	}
 }
 
@@ -137,6 +146,14 @@ void AGoblinGambline_PlayerBase::PlayerZoom(const FInputActionValue& Value)
 		{
 			CameraSpringArm->TargetArmLength = m_minZoomOut;
 		}
+	}
+}
+
+void AGoblinGambline_PlayerBase::PlayerPauseGame()
+{
+	if (PlayerHUD)
+	{
+		PlayerHUD->TogglePause();
 	}
 }
 

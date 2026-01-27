@@ -13,6 +13,25 @@ AGoblinPlayerHUD::AGoblinPlayerHUD()
 	//pOwningPlayer = nullptr;
 }
 
+void AGoblinPlayerHUD::TogglePause()
+{
+	if (pPauseScreen)
+	{
+		if (pPauseScreen->IsVisible())
+		{
+			// Unpause the game
+			UGameplayStatics::SetGamePaused(GetWorld(), false);
+			pPauseScreen->RemoveFromParent();
+		}
+		else
+		{
+			// Pause the game
+			UGameplayStatics::SetGamePaused(GetWorld(), true);
+			pPauseScreen->AddToViewport();
+		}
+	}
+}
+
 void AGoblinPlayerHUD::BeginPlay()
 {
 	Super::BeginPlay();
@@ -25,6 +44,7 @@ void AGoblinPlayerHUD::BeginPlay()
 		if (tempPlayerPointer != nullptr)
 		{
 			pGameUI->pOwningPlayer = tempPlayerPointer;
+			tempPlayerPointer->SetupPlayerHUD(this);
 		}
 		pGameUI->AddToViewport();
 	}

@@ -39,8 +39,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCamera;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
-	//class AGoblinPlayerHUD* PlayerHUD;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = HUD, meta = (AllowPrivateAccess = "true"))
+	class AGoblinPlayerHUD* PlayerHUD;
 
 #pragma endregion
 
@@ -66,6 +66,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ZoomAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* PauseGameAction;
+
 #pragma endregion
 
 
@@ -78,12 +81,18 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void SetupPlayerHUD(class AGoblinPlayerHUD* pPlayerHUD) { PlayerHUD = pPlayerHUD; };
 
 	void PlayerMove(const FInputActionValue& Value);
 	void PlayerLook(const FInputActionValue& Value);
 	void PlayerJump();
 	void PlayerInteract();
 	void PlayerZoom(const FInputActionValue& Value);
+#pragma region Player Inputs
+
+	void PlayerPauseGame();
+
+#pragma endregion
 
 	APlayerController* GetPlayerController();
 
