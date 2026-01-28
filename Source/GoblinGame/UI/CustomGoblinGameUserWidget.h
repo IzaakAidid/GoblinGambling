@@ -18,8 +18,9 @@ public:
 	// Sets default values for this character's properties
 	//UCustomGoblinGameUserWidget();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayerData, meta = (AllowPrivateAccess = "true"))
-	class AGoblinGambline_PlayerBase* pOwningPlayer;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayerData, meta = (AllowPrivateAccess = "true"))
+	//class AGoblinGambline_PlayerBase* pOwningPlayer;
+
 
 protected:
 	// Called when the game starts or when spawned

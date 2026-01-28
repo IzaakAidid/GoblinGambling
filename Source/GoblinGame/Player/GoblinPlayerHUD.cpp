@@ -20,13 +20,13 @@ void AGoblinPlayerHUD::TogglePause()
 		if (pPauseScreen->IsVisible())
 		{
 			// Unpause the game
-			UGameplayStatics::SetGamePaused(GetWorld(), false);
+			//UGameplayStatics::SetGamePaused(GetWorld(), false);
 			pPauseScreen->RemoveFromParent();
 		}
 		else
 		{
 			// Pause the game
-			UGameplayStatics::SetGamePaused(GetWorld(), true);
+			//UGameplayStatics::SetGamePaused(GetWorld(), true);
 			pPauseScreen->AddToViewport();
 		}
 	}
@@ -40,10 +40,12 @@ void AGoblinPlayerHUD::BeginPlay()
 	{
 		AGoblinGambline_PlayerBase* tempPlayerPointer = nullptr;
 		//TEMPORARY FIX | NON-NETWORKED
+		
 		tempPlayerPointer = Cast<AGoblinGambline_PlayerBase>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 		if (tempPlayerPointer != nullptr)
 		{
-			pGameUI->pOwningPlayer = tempPlayerPointer;
+			pGameUI->SetOwningPlayer(tempPlayerPointer->GetPlayerController());
+			pPauseScreen->SetOwningPlayer(tempPlayerPointer->GetPlayerController());
 			tempPlayerPointer->SetupPlayerHUD(this);
 		}
 		pGameUI->AddToViewport();

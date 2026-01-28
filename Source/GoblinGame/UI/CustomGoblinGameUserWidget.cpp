@@ -8,9 +8,12 @@
 
 int UCustomGoblinGameUserWidget::GetGoblinBucksForUI()
 {
-	if (pOwningPlayer)
+	AGoblinGambline_PlayerBase* tempPlayerPointer = nullptr;
+
+	tempPlayerPointer = Cast<AGoblinGambline_PlayerBase>(GetOwningPlayer()->GetPawn());
+	if (tempPlayerPointer)
 	{
-		return pOwningPlayer->PlayerWallet->GetHeldGoblinBucks();
+		return tempPlayerPointer->PlayerWallet->GetHeldGoblinBucks();
 	}
 	else
 	{
@@ -20,9 +23,12 @@ int UCustomGoblinGameUserWidget::GetGoblinBucksForUI()
 
 int UCustomGoblinGameUserWidget::GetGoblinChipsCasino1ForUI()
 {
-	if (pOwningPlayer)
+	AGoblinGambline_PlayerBase* tempPlayerPointer = nullptr;
+
+	tempPlayerPointer = Cast<AGoblinGambline_PlayerBase>(GetOwningPlayer()->GetPawn());
+	if (tempPlayerPointer)
 	{
-		return pOwningPlayer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO1);
+		return tempPlayerPointer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO1);
 	}
 	else
 	{
@@ -32,9 +38,12 @@ int UCustomGoblinGameUserWidget::GetGoblinChipsCasino1ForUI()
 
 int UCustomGoblinGameUserWidget::GetGoblinChipsCasino2ForUI()
 {
-	if (pOwningPlayer)
+	AGoblinGambline_PlayerBase* tempPlayerPointer = nullptr;
+
+	tempPlayerPointer = Cast<AGoblinGambline_PlayerBase>(GetOwningPlayer()->GetPawn());
+	if (tempPlayerPointer)
 	{
-		return pOwningPlayer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO2);
+		return tempPlayerPointer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO2);
 	}
 	else
 	{
@@ -44,9 +53,12 @@ int UCustomGoblinGameUserWidget::GetGoblinChipsCasino2ForUI()
 
 int UCustomGoblinGameUserWidget::GetGoblinChipsCasino3ForUI()
 {
-	if (pOwningPlayer)
+	AGoblinGambline_PlayerBase* tempPlayerPointer = nullptr;
+
+	tempPlayerPointer = Cast<AGoblinGambline_PlayerBase>(GetOwningPlayer()->GetPawn());
+	if (tempPlayerPointer)
 	{
-		return pOwningPlayer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO3);
+		return tempPlayerPointer->PlayerWallet->GetHeldGoblinChips(ECasinoChipsType::CASINO3);
 	}
 	else
 	{
