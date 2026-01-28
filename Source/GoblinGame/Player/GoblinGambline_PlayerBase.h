@@ -53,34 +53,6 @@ protected:
 
 #pragma endregion
 
-#pragma region Player Inputs
-	/** Mapping Context */
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputMappingContext* GameplayInputContext;
-
-	/** Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* JumpAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* InteractAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* LookAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* ZoomAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* BegAction;
-
-#pragma endregion
-
-
 	int m_maxZoomOut;
 	int m_minZoomOut;
 
@@ -88,17 +60,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	void PlayerMove(const FInputActionValue& Value);
-	void PlayerLook(const FInputActionValue& Value);
-	void PlayerJump();
-	void PlayerInteract();
-	void PlayerZoom(const FInputActionValue& Value);
-
-        UFUNCTION(Server, Reliable)
-        void PlayerBeg();
+	void GoblinMove(const FInputActionValue& Value);
+	void GoblinLook(const FInputActionValue& Value);
+	void GoblinJump();
+	void GoblinInteract();
+	void GoblinZoom(const FInputActionValue& Value);
+    void GoblinBeg();
 
 	APlayerController* GetPlayerController();
 
