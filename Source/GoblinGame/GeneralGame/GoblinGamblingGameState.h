@@ -14,4 +14,14 @@ class GOBLINGAME_API AGoblinGamblingGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 	
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void SavePlayerData(class AGoblinGambline_PlayerBase* pPlayer);
+
+private:
+
+
+
 };

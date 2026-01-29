@@ -14,7 +14,7 @@ UGoblinWalletComponent::UGoblinWalletComponent()
 
 	// ...
 
-	m_HeldGoblinBucks = 100;
+	m_HeldGoblinBucks = 0;
 	m_HeldGoblinChips_C1 = 0;
 	m_HeldGoblinChips_C2 = 0;
 	m_HeldGoblinChips_C3 = 0;

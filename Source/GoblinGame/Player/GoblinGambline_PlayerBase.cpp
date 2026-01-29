@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../Currency/GoblinWalletComponent.h"
 #include "../Currency/StreetBeggingComponent.h"
+#include "../GeneralGame/PlayerInventorySave.h"
 
 #include "GoblinPlayerHUD.h"
 
@@ -42,7 +43,7 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 	PlayerCamera->bUsePawnControlRotation = false;
 
 	PlayerWallet = CreateDefaultSubobject<UGoblinWalletComponent>(TEXT("PlayerWallet"));
-	PlayerWallet->SetupGoblinWallet(200);
+	PlayerWallet->SetupGoblinWallet(0);
 
     StreetBeggingRadius = CreateDefaultSubobject<USphereComponent>(TEXT("StreetBeggingRadius"));
     StreetBeggingRadius->SetupAttachment(RootComponent);
@@ -64,6 +65,20 @@ void AGoblinGambline_PlayerBase::BeginPlay()
 		{
 			Subsystem->AddMappingContext(GameplayInputContext, 0);
 		}
+	}
+
+	// Retrieve and cast the USaveGame object to UMySaveGame.
+	if (UPlayerInventorySave* LoadedGame = Cast<UPlayerInventorySave>(UGameplayStatics::LoadGameFromSlot(TEXT("Testslot"), 0)))
+	{
+		// The operation was successful, so LoadedGame now contains the data we saved earlier.
+		//UE_LOG(LogTemp, Warning, TEXT("LOADED: %s"), *LoadedGame->PlayerName);
+
+		// Populate wallet
+		PlayerWallet->SetHeldGoblinBucks(LoadedGame->SavedHeldGoblinBucks);
+		PlayerWallet->SetHeldGoblinChips(LoadedGame->SavedHeldGoblinChips_C1, ECasinoChipsType::CASINO1);
+		PlayerWallet->SetHeldGoblinChips(LoadedGame->SavedHeldGoblinChips_C2, ECasinoChipsType::CASINO2);
+		PlayerWallet->SetHeldGoblinChips(LoadedGame->SavedHeldGoblinChips_C3, ECasinoChipsType::CASINO3);
+
 	}
 }
 

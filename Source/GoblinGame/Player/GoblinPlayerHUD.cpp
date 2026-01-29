@@ -40,7 +40,6 @@ void AGoblinPlayerHUD::BeginPlay()
 	{
 		AGoblinGambline_PlayerBase* tempPlayerPointer = nullptr;
 		//TEMPORARY FIX | NON-NETWORKED
-		
 		tempPlayerPointer = Cast<AGoblinGambline_PlayerBase>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 		if (tempPlayerPointer != nullptr)
 		{
