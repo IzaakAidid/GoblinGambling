@@ -8,6 +8,7 @@
 #include "PlayerSeat.generated.h"
 
 class UStaticMeshComponent;
+class UArrowComponent;
 
 UCLASS()
 class GOBLINGAME_API APlayerSeat : public AActor, public IInteractableObject
@@ -24,6 +25,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* StaticMesh;
+
+	UPROPERTY(EditAnywhere)
+	UArrowComponent* ArrowComponent;
 
 public:	
 

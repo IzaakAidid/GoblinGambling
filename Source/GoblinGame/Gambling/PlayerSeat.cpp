@@ -2,6 +2,9 @@
 
 
 #include "../Gambling/PlayerSeat.h"
+#include "Components/ArrowComponent.h"
+#include "../Player/GoblinGambline_PlayerBase.h"
+#include "../Player/GoblinController.h"
 
 // Sets default values
 APlayerSeat::APlayerSeat()
@@ -10,7 +13,10 @@ APlayerSeat::APlayerSeat()
     PrimaryActorTick.bCanEverTick = false;
 
     StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
-    StaticMesh->SetupAttachment(RootComponent);
+    RootComponent = StaticMesh;
+
+    ArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow Component"));
+    ArrowComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -23,4 +29,13 @@ void APlayerSeat::BeginPlay()
 void APlayerSeat::Interact_Implementation(AGoblinGambline_PlayerBase* Player)
 {
     GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, TEXT("Player Seat Interacted With"));
+
+    Player->SetActorLocation(ArrowComponent->GetComponentLocation());
+    Player->Controller->SetControlRotation(ArrowComponent->GetComponentRotation());
+    Player->ForceFirstPerson();
+
+    if (AGoblinController* Controller = Cast<AGoblinController>(Player->Controller))
+    {
+        Controller->SwapToTableInput();
+    }
 }

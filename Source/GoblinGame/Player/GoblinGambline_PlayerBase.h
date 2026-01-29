@@ -60,6 +60,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void ForceFirstPerson();
+
 	void GoblinMove(const FInputActionValue& Value);
 	void GoblinLook(const FInputActionValue& Value);
 	void GoblinJump();

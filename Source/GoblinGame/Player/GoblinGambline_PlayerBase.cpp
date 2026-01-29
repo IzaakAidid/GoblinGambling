@@ -65,6 +65,11 @@ void AGoblinGambline_PlayerBase::Tick(float DeltaTime)
 
 }
 
+void AGoblinGambline_PlayerBase::ForceFirstPerson()
+{
+	CameraSpringArm->TargetArmLength = m_minZoomOut;
+}
+
 void AGoblinGambline_PlayerBase::GoblinMove(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
@@ -107,7 +112,7 @@ void AGoblinGambline_PlayerBase::GoblinInteract()
 
 	FVector StartLocation = GetActorLocation();
 
-	FVector EndLocation = StartLocation + GetActorForwardVector() * 50;
+	FVector EndLocation = StartLocation + GetActorForwardVector() * 150;
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params))
 	{

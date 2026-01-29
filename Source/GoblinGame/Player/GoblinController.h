@@ -31,15 +31,23 @@ protected:
 
 public:
 
+	void SwapToTableInput();
+	void SwapToGoblinInput();
+
 	// Called to bind functionality to input
 	virtual void SetupInputComponent() override;
 
+	/* Goblin Functions */
 	void PlayerMove(const FInputActionValue& Value);
 	void PlayerLook(const FInputActionValue& Value);
 	void PlayerJump();
 	void PlayerInteract();
 	void PlayerZoom(const FInputActionValue& Value);
 	void PlayerBeg();
+
+	/* Table Functions */
+
+	void TableExit();
 	
 protected:
 
@@ -63,7 +71,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* GameplayInputContext;
 
-	/** Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputMappingContext* CardTableInputContext;
+
+	/** Goblin Actions */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
 
@@ -81,4 +92,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* BegAction;
+
+	/** Card Table Actions */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ExitAction;
 };
