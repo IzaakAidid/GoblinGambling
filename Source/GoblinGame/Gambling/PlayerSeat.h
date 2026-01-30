@@ -9,6 +9,7 @@
 
 class UStaticMeshComponent;
 class UArrowComponent;
+class APlayerHand;
 
 UCLASS()
 class GOBLINGAME_API APlayerSeat : public AActor, public IInteractableObject
@@ -29,8 +30,16 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UArrowComponent* ArrowComponent;
 
+	UPROPERTY(Replicated)
+	bool bIsOccupied;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	APlayerHand* PlayerHandActor;
+
 public:	
 
     virtual void Interact_Implementation(AGoblinGambline_PlayerBase* Player) override;
+
+	void EmptySeat();
 
 };

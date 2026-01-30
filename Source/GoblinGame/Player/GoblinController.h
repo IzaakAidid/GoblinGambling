@@ -10,6 +10,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class AGoblinGambline_PlayerBase;
+class APlayerSeat;
 
 /**
  * 
@@ -31,8 +32,10 @@ protected:
 
 public:
 
-	void SwapToTableInput();
+	void SwapToSeatedInput();
 	void SwapToGoblinInput();
+
+	void SetPlayerSeat(APlayerSeat* playerSeat) { PlayerSeat = playerSeat; }
 
 	// Called to bind functionality to input
 	virtual void SetupInputComponent() override;
@@ -45,12 +48,13 @@ public:
 	void PlayerZoom(const FInputActionValue& Value);
 	void PlayerBeg();
 
-	/* Table Functions */
+	/* Gambling Functions */
 
-	void TableExit();
+	void SeatExit();
 	
 protected:
 
+	/* SERVER GOBLIN FUNCTIONS*/
     UFUNCTION(Server, Reliable)
 	void Server_PlayerMove(const FInputActionValue& Value);
 	UFUNCTION(Server, Reliable)
@@ -64,7 +68,15 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void Server_PlayerBeg();
 
+
+	/* SERVER GAMBLING FUNCTIONS*/
+	UFUNCTION(Server, Reliable)
+	void Server_SeatExit();
+
+
 	AGoblinGambline_PlayerBase* PlayerGoblin;
+	APlayerSeat* PlayerSeat;
+
 
 	/** Mapping Context */
 
@@ -72,7 +84,7 @@ protected:
 	UInputMappingContext* GameplayInputContext;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputMappingContext* CardTableInputContext;
+	UInputMappingContext* SeatedInputContext;
 
 	/** Goblin Actions */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))

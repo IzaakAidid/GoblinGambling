@@ -3,6 +3,7 @@
 
 #include "../Player/GoblinController.h"
 #include "../Player/GoblinGambline_PlayerBase.h"
+#include "../Gambling/PlayerSeat.h"
 
 /*stuff for inputs*/
 #include "EnhancedInputComponent.h"
@@ -37,11 +38,11 @@ void AGoblinController::OnUnPossess()
     Super::OnUnPossess();
 }
 
-void AGoblinController::SwapToTableInput()
+void AGoblinController::SwapToSeatedInput()
 {
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
-		Subsystem->AddMappingContext(CardTableInputContext, 0);
+		Subsystem->AddMappingContext(SeatedInputContext, 0);
 		Subsystem->RemoveMappingContext(GameplayInputContext);
 	}
 }
@@ -51,7 +52,7 @@ void AGoblinController::SwapToGoblinInput()
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(GameplayInputContext, 0);
-		Subsystem->RemoveMappingContext(CardTableInputContext);
+		Subsystem->RemoveMappingContext(SeatedInputContext);
 	}
 }
 
@@ -77,7 +78,7 @@ void AGoblinController::SetupInputComponent()
 
 		EnhancedInputComponent->BindAction(BegAction, ETriggerEvent::Triggered, this, &AGoblinController::PlayerBeg);
 
-		EnhancedInputComponent->BindAction(ExitAction, ETriggerEvent::Triggered, this, &AGoblinController::TableExit);
+		EnhancedInputComponent->BindAction(ExitAction, ETriggerEvent::Triggered, this, &AGoblinController::SeatExit);
 	}
 }
 
@@ -131,9 +132,16 @@ void AGoblinController::PlayerBeg()
 	}
 }
 
-void AGoblinController::TableExit()
+void AGoblinController::SeatExit()
 {
-	SwapToGoblinInput();
+	Server_SeatExit();
+
+	if (PlayerSeat)
+	{
+        PlayerSeat->EmptySeat();
+		SwapToGoblinInput();
+		PlayerSeat = nullptr;
+	}
 }
 
 void AGoblinController::Server_PlayerMove_Implementation(const FInputActionValue& Value)
@@ -162,4 +170,14 @@ void AGoblinController::Server_PlayerZoom_Implementation(const FInputActionValue
 
 void AGoblinController::Server_PlayerBeg_Implementation()
 {
+}
+
+void AGoblinController::Server_SeatExit_Implementation()
+{
+	if (PlayerSeat)
+	{
+		PlayerSeat->EmptySeat();
+		SwapToGoblinInput();
+		PlayerSeat = nullptr;
+	}
 }
