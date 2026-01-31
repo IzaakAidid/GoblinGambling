@@ -49,6 +49,9 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
     StreetBeggingComp = CreateDefaultSubobject<UStreetBeggingComponent>(TEXT("StreetBeggingComp"));
     StreetBeggingComp->InitBeggingComponent(StreetBeggingRadius, PlayerWallet);
 	StreetBeggingComp->DeactivateBegging();
+
+	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+	
 }
 
 // Called when the game starts or when spawned
