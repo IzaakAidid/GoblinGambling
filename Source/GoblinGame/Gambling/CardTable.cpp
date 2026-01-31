@@ -3,6 +3,7 @@
 
 #include "../Gambling/CardTable.h"
 #include "../Gambling/PlayerSeat.h"
+#include "../Gambling/DeckOfCards.h"
 #include "Components/ArrowComponent.h"
 
 // Sets default values
@@ -13,7 +14,6 @@ ACardTable::ACardTable()
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
 	SetRootComponent(StaticMesh);
-
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +21,7 @@ void ACardTable::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorld()->SpawnActor<APlayerSeat>();
+	DeckOfCards = NewObject<UDeckOfCards>(this, DeckBP);
 	
+	DeckOfCards->ShuffleDeck();
 }
