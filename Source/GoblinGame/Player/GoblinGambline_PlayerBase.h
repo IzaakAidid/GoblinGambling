@@ -68,10 +68,15 @@ public:
 	void GoblinInteract();
 	void GoblinZoom(const FInputActionValue& Value);
     void GoblinBeg();
+	void GoblinStartSprint();
+	void GoblinEndSprint();
 
 	APlayerController* GetPlayerController();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
 	class UGoblinWalletComponent* PlayerWallet;
 
+
+	/** Property replication */
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

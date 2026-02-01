@@ -78,6 +78,9 @@ void AGoblinController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(BegAction, ETriggerEvent::Triggered, this, &AGoblinController::PlayerBeg);
 
 		EnhancedInputComponent->BindAction(ExitAction, ETriggerEvent::Triggered, this, &AGoblinController::TableExit);
+
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AGoblinController::PlayerStartSprint);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AGoblinController::PlayerEndSprint);
 	}
 }
 
@@ -131,6 +134,24 @@ void AGoblinController::PlayerBeg()
 	}
 }
 
+void AGoblinController::PlayerStartSprint()
+{
+	Server_PlayerSprint();
+	//if (PlayerGoblin)
+	//{
+	//	PlayerGoblin->GoblinStartSprint();
+	//}
+}
+
+void AGoblinController::PlayerEndSprint()
+{
+	Server_PlayerEndSprint();
+	//if (PlayerGoblin)
+	//{
+	//	PlayerGoblin->GoblinEndSprint();
+	//}
+}
+
 void AGoblinController::TableExit()
 {
 	SwapToGoblinInput();
@@ -162,4 +183,20 @@ void AGoblinController::Server_PlayerZoom_Implementation(const FInputActionValue
 
 void AGoblinController::Server_PlayerBeg_Implementation()
 {
+}
+
+void AGoblinController::Server_PlayerSprint_Implementation()
+{
+	if (PlayerGoblin)
+	{
+		PlayerGoblin->GoblinStartSprint();
+	}
+}
+
+void AGoblinController::Server_PlayerEndSprint_Implementation()
+{
+	if (PlayerGoblin)
+	{
+		PlayerGoblin->GoblinEndSprint();
+	}
 }
