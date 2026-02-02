@@ -22,7 +22,7 @@
 
 /*stuff for inputs*/
 #include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
+#include "../GeneralGame/InteractableObject.h"
 
 // Sets default values
 AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
@@ -52,20 +52,15 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
     StreetBeggingComp = CreateDefaultSubobject<UStreetBeggingComponent>(TEXT("StreetBeggingComp"));
     StreetBeggingComp->InitBeggingComponent(StreetBeggingRadius, PlayerWallet);
 	StreetBeggingComp->DeactivateBegging();
+
+	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+	
 }
 
 // Called when the game starts or when spawned
 void AGoblinGambline_PlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(GameplayInputContext, 0);
-		}
-	}
 
 	// Retrieve and cast the USaveGame object to UMySaveGame.
 	if (UPlayerInventorySave* LoadedGame = Cast<UPlayerInventorySave>(UGameplayStatics::LoadGameFromSlot(TEXT("Testslot"), 0)))
@@ -89,33 +84,13 @@ void AGoblinGambline_PlayerBase::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void AGoblinGambline_PlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AGoblinGambline_PlayerBase::ForceFirstPerson()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		// Moving, duh
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerMove);
-		// Moving, duh
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerLook);
-
-		// LEAP MOFO, duh
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerJump);
-
-		// try to interact
-		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerInteract);
-
-		// try to zoom
-		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerZoom);
-
-		EnhancedInputComponent->BindAction(BegAction, ETriggerEvent::Triggered, this, &AGoblinGambline_PlayerBase::PlayerBeg);
-		//UI 
-		// Toggle Pause State
-		EnhancedInputComponent->BindAction(PauseGameAction, ETriggerEvent::Started, this, &AGoblinGambline_PlayerBase::PlayerPauseGame);	}
+	CameraSpringArm->TargetArmLength = m_minZoomOut;
 }
 
-void AGoblinGambline_PlayerBase::PlayerMove(const FInputActionValue& Value)
+
+void AGoblinGambline_PlayerBase::GoblinMove(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -128,7 +103,8 @@ void AGoblinGambline_PlayerBase::PlayerMove(const FInputActionValue& Value)
 	StreetBeggingComp->DeactivateBegging(); //TODO: Find a way to remove this
 }
 
-void AGoblinGambline_PlayerBase::PlayerLook(const FInputActionValue& Value)
+
+void AGoblinGambline_PlayerBase::GoblinLook(const FInputActionValue& Value)
 {
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
@@ -140,18 +116,38 @@ void AGoblinGambline_PlayerBase::PlayerLook(const FInputActionValue& Value)
 	}
 }
 
-void AGoblinGambline_PlayerBase::PlayerJump()
+
+void AGoblinGambline_PlayerBase::GoblinJump()
 {
 	StreetBeggingComp->DeactivateBegging(); //TODO: Find a way to remove this
 	Jump();
 }
 
-void AGoblinGambline_PlayerBase::PlayerInteract()
-{
 
+void AGoblinGambline_PlayerBase::GoblinInteract()
+{
+	GEngine->AddOnScreenDebugMessage(555, 3.0f, FColor::Green, FString::Printf(TEXT("interact clicked")));
+
+	FHitResult HitResult;
+
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+
+	FVector StartLocation = GetActorLocation();
+
+	FVector EndLocation = StartLocation + GetActorForwardVector() * 150;
+
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params))
+	{
+		if (HitResult.GetActor()->Implements<UInteractableObject>())
+		{
+            IInteractableObject::Execute_Interact(HitResult.GetActor(), this);
+		}
+	}
 }
 
-void AGoblinGambline_PlayerBase::PlayerZoom(const FInputActionValue& Value)
+
+void AGoblinGambline_PlayerBase::GoblinZoom(const FInputActionValue& Value)
 {
 	float zoomDirection = Value.Get<float>();
 
@@ -180,8 +176,6 @@ void AGoblinGambline_PlayerBase::PlayerPauseGame()
 		PlayerHUD->TogglePause();
 	}
 }
-
-
 APlayerController* AGoblinGambline_PlayerBase::GetPlayerController()
 {
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -192,7 +186,8 @@ APlayerController* AGoblinGambline_PlayerBase::GetPlayerController()
 }
 
 //ideally this is gonna be like a crouch toggle. if the player moves while begging, they stop begging.
-void AGoblinGambline_PlayerBase::PlayerBeg_Implementation()
+
+void AGoblinGambline_PlayerBase::GoblinBeg()
 {
     StreetBeggingComp->ActivateBegging();
 }
