@@ -34,7 +34,7 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 	m_maxZoomOut = 1000;
 	m_minZoomOut = 0;
 
-	GetMesh()->SetIsReplicated(true);
+	//GetMesh()->SetIsReplicated(true);
 
 	CameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
 	CameraSpringArm->SetupAttachment(RootComponent);
@@ -56,7 +56,10 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
     StreetBeggingComp->InitBeggingComponent(StreetBeggingRadius, PlayerWallet);
 	StreetBeggingComp->DeactivateBegging();
 
-	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+	m_MaxWalkSpeed = 300.0f;
+	m_MaxRunSpeed = 600.0f;
+
+	GetCharacterMovement()->MaxWalkSpeed = m_MaxWalkSpeed;
 	GetCharacterMovement()->SetIsReplicated(true);
 
 	SetReplicates(true);
@@ -172,6 +175,9 @@ void AGoblinGambline_PlayerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProp
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	DOREPLIFETIME(AGoblinGambline_PlayerBase, m_MaxRunSpeed);
+	DOREPLIFETIME(AGoblinGambline_PlayerBase, m_MaxWalkSpeed);
+
 }
 
 //ideally this is gonna be like a crouch toggle. if the player moves while begging, they stop begging.
@@ -183,10 +189,10 @@ void AGoblinGambline_PlayerBase::GoblinBeg()
 
 void AGoblinGambline_PlayerBase::GoblinStartSprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+	GetCharacterMovement()->MaxWalkSpeed = m_MaxRunSpeed;
 }
 
 void AGoblinGambline_PlayerBase::GoblinEndSprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+	GetCharacterMovement()->MaxWalkSpeed = m_MaxWalkSpeed;
 }

@@ -56,6 +56,12 @@ protected:
 	int m_maxZoomOut;
 	int m_minZoomOut;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	float m_MaxWalkSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	float m_MaxRunSpeed;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

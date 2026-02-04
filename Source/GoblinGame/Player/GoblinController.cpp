@@ -136,20 +136,20 @@ void AGoblinController::PlayerBeg()
 
 void AGoblinController::PlayerStartSprint()
 {
+	if (PlayerGoblin)
+	{
+		PlayerGoblin->GoblinStartSprint();
+	}
 	Server_PlayerSprint();
-	//if (PlayerGoblin)
-	//{
-	//	PlayerGoblin->GoblinStartSprint();
-	//}
 }
 
 void AGoblinController::PlayerEndSprint()
 {
+	if (PlayerGoblin)
+	{
+		PlayerGoblin->GoblinEndSprint();
+	}
 	Server_PlayerEndSprint();
-	//if (PlayerGoblin)
-	//{
-	//	PlayerGoblin->GoblinEndSprint();
-	//}
 }
 
 void AGoblinController::TableExit()
