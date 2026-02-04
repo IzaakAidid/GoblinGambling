@@ -47,7 +47,7 @@ public:
 	UTexture2D* CardFaceTexture;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Playing Card")
-    UTexture2D* CardBackTexture;
+	UTexture2D* CardBackTexture;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Playing Card")
     FString CardName;

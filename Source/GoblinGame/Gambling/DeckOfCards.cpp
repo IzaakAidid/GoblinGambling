@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "../Gambling/DeckOfCards.h"
-#include "../Gambling/PlayingCardDataAsset.h"
+#include "DeckOfCards.h"
+#include "PlayingCardDataAsset.h"
 
 void UDeckOfCards::ShuffleDeck()
 {

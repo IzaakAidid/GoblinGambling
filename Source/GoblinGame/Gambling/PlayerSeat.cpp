@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "../Gambling/PlayerSeat.h"
-#include "../Gambling/PlayerHand.h"
+#include "PlayerSeat.h"
+#include "PlayerHand.h"
 #include "Components/ArrowComponent.h"
-#include "../Player/GoblinGambline_PlayerBase.h"
-#include "../Player/GoblinController.h"
+#include "GoblinGambline_PlayerBase.h"
+#include "GoblinController.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values

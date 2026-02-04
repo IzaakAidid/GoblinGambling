@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "../GeneralGame/InteractableObject.h"
+#include "InteractableObject.h"
 #include "PlayerSeat.generated.h"
 
 class UStaticMeshComponent;

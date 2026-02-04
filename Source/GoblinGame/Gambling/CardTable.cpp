@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "../Gambling/CardTable.h"
-#include "../Gambling/PlayerSeat.h"
-#include "../Gambling/DeckOfCards.h"
+#include "CardTable.h"
+#include "PlayerSeat.h"
+#include "DeckOfCards.h"
 #include "Components/ArrowComponent.h"
 
 // Sets default values
