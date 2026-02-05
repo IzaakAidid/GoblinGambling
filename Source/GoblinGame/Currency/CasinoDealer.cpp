@@ -11,7 +11,7 @@
 // Sets default values
 ACasinoDealer::ACasinoDealer()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	InteractionCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DealerInteractionCollisionBox"));
 	DealerWallet = CreateDefaultSubobject<UGoblinWalletComponent>(TEXT("DealerWallet"));
@@ -92,27 +92,34 @@ void ACasinoDealer::ConvertALLBucksToChips(UGoblinWalletComponent* pPlayerWallet
 {
 	int temp = pPlayerWallet->GetHeldGoblinBucks();
 	pPlayerWallet->RemoveGoblinBucks(temp);
-	pPlayerWallet->AddGoblinChips(temp,CasinoChipsType);
+	pPlayerWallet->AddGoblinChips(temp, CasinoChipsType);
 }
 
 void ACasinoDealer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (pMenuWidget)
-	{
-		pMenuWidget->pOwningDealer = this;
-		if (AGoblinGambline_PlayerBase* temp = Cast<AGoblinGambline_PlayerBase>(OtherActor))
-		{
-			if (APlayerController* tempController = Cast<APlayerController>(temp->Controller))
-			{
-				pMenuWidget->pPlayerController = tempController;
-				pMenuWidget->pPlayerWallet = temp->PlayerWallet;
-			}
-		}
-		pMenuWidget->AddToViewport();
-	}
+
 }
 
 void ACasinoDealer::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+
+}
+
+void ACasinoDealer::Interact_Implementation(AGoblinGambline_PlayerBase* Player)
+{
+	if (pMenuWidget)
+	{
+		pMenuWidget->pOwningDealer = this;
+		if (APlayerController* tempController = Cast<APlayerController>(Player->Controller))
+		{
+			if (tempController->IsLocalPlayerController())
+			{
+				pMenuWidget->pPlayerController = tempController;
+				pMenuWidget->pPlayerWallet = Player->PlayerWallet;
+
+				pMenuWidget->AddToViewport();
+			}
+		}
+	}
 
 }

@@ -44,6 +44,8 @@ public:
 	void PlayerInteract();
 	void PlayerZoom(const FInputActionValue& Value);
 	void PlayerBeg();
+	void PlayerStartSprint();
+	void PlayerEndSprint();
 
 	/* Table Functions */
 
@@ -63,6 +65,10 @@ protected:
 	void Server_PlayerZoom(const FInputActionValue& Value);
 	UFUNCTION(Server, Reliable)
 	void Server_PlayerBeg();
+	UFUNCTION(Server, Reliable)
+	void Server_PlayerSprint();
+	UFUNCTION(Server, Reliable)
+	void Server_PlayerEndSprint();
 
 	UFUNCTION(Server, Reliable)
 	void Server_PlayerPause();
@@ -102,4 +108,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* PauseAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
 };

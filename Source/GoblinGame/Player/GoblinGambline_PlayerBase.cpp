@@ -24,6 +24,10 @@
 #include "EnhancedInputComponent.h"
 #include "../GeneralGame/InteractableObject.h"
 
+/*stuff for Networking*/
+#include "Net/UnrealNetwork.h"
+
+
 // Sets default values
 AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 {
@@ -32,6 +36,8 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
 
 	m_maxZoomOut = 1000;
 	m_minZoomOut = 0;
+
+	//GetMesh()->SetIsReplicated(true);
 
 	CameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
 	CameraSpringArm->SetupAttachment(RootComponent);
@@ -53,8 +59,14 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
     StreetBeggingComp->InitBeggingComponent(StreetBeggingRadius, PlayerWallet);
 	StreetBeggingComp->DeactivateBegging();
 
-	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
-	
+	m_MaxWalkSpeed = 300.0f;
+	m_MaxRunSpeed = 600.0f;
+
+	GetCharacterMovement()->MaxWalkSpeed = m_MaxWalkSpeed;
+	GetCharacterMovement()->SetIsReplicated(true);
+
+	SetReplicates(true);
+	SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
@@ -185,9 +197,29 @@ APlayerController* AGoblinGambline_PlayerBase::GetPlayerController()
 	return nullptr;
 }
 
+void AGoblinGambline_PlayerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AGoblinGambline_PlayerBase, m_MaxRunSpeed);
+	DOREPLIFETIME(AGoblinGambline_PlayerBase, m_MaxWalkSpeed);
+
+}
+
 //ideally this is gonna be like a crouch toggle. if the player moves while begging, they stop begging.
 
 void AGoblinGambline_PlayerBase::GoblinBeg()
 {
     StreetBeggingComp->ActivateBegging();
+
+}
+
+void AGoblinGambline_PlayerBase::GoblinStartSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = m_MaxRunSpeed;
+}
+
+void AGoblinGambline_PlayerBase::GoblinEndSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = m_MaxWalkSpeed;
 }

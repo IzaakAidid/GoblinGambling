@@ -41,7 +41,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCamera;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = HUD, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HUD, meta = (AllowPrivateAccess = "true"))
 	class AGoblinPlayerHUD* PlayerHUD;
 
 	/** Street Begging */
@@ -56,6 +56,12 @@ protected:
 	int m_maxZoomOut;
 	int m_minZoomOut;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	float m_MaxWalkSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	float m_MaxRunSpeed;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -68,12 +74,17 @@ public:
 	void GoblinJump();
 	void GoblinInteract();
 	void GoblinZoom(const FInputActionValue& Value);
-	void GoblinBeg();
+    void GoblinBeg();
 	void PlayerPauseGame();
+	void GoblinStartSprint();
+	void GoblinEndSprint();
 
 	APlayerController* GetPlayerController();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
 	class UGoblinWalletComponent* PlayerWallet;
 
+
+	/** Property replication */
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
