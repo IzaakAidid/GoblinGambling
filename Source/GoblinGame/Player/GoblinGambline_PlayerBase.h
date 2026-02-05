@@ -56,6 +56,12 @@ protected:
 	int m_maxZoomOut;
 	int m_minZoomOut;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	float m_MaxWalkSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	float m_MaxRunSpeed;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -68,10 +74,15 @@ public:
 	void GoblinInteract();
 	void GoblinZoom(const FInputActionValue& Value);
     void GoblinBeg();
+	void GoblinStartSprint();
+	void GoblinEndSprint();
 
 	APlayerController* GetPlayerController();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
 	class UGoblinWalletComponent* PlayerWallet;
 
+
+	/** Property replication */
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

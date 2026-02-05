@@ -44,6 +44,8 @@ public:
 	void PlayerInteract();
 	void PlayerZoom(const FInputActionValue& Value);
 	void PlayerBeg();
+	void PlayerStartSprint();
+	void PlayerEndSprint();
 
 	/* Table Functions */
 
@@ -63,6 +65,10 @@ protected:
 	void Server_PlayerZoom(const FInputActionValue& Value);
 	UFUNCTION(Server, Reliable)
 	void Server_PlayerBeg();
+	UFUNCTION(Server, Reliable)
+	void Server_PlayerSprint();
+	UFUNCTION(Server, Reliable)
+	void Server_PlayerEndSprint();
 
 	AGoblinGambline_PlayerBase* PlayerGoblin;
 
@@ -96,4 +102,7 @@ protected:
 	/** Card Table Actions */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ExitAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
 };
