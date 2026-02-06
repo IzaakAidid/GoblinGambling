@@ -4,6 +4,8 @@
 #include "CardTable.h"
 #include "PlayerSeat.h"
 #include "DeckOfCards.h"
+#include "PlayingCard.h"
+#include "PlayerHand.h"
 #include "Components/ArrowComponent.h"
 
 // Sets default values
@@ -24,4 +26,12 @@ void ACardTable::BeginPlay()
 	DeckOfCards = NewObject<UDeckOfCards>(this, DeckBP);
 	
 	DeckOfCards->ShuffleDeck();
+
+	AActor* newCard = GetWorld()->SpawnActor<AActor>(CardBP);
+
+	APlayingCard* card = Cast<APlayingCard>(newCard);
+
+	card->SetActorLocation(PlayerHandActor->GetActorLocation());
+
+	card->SetCardData(DeckOfCards->DrawTopCard());
 }

@@ -9,6 +9,7 @@
 class UArrowComponent;
 class APlayerHand;
 class UDeckOfCards;
+class APlayingCard;
 
 UCLASS(Blueprintable)
 class GOBLINGAME_API ACardTable : public AActor
@@ -34,6 +35,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UDeckOfCards* DeckOfCards;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AActor> CardBP;
 
 public:	
 
