@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../Currency/GoblinWalletComponent.h"
 #include "../Currency/StreetBeggingComponent.h"
+#include "GameFramework/PlayerState.h"
 
 /*stuff for general use*/
 #include "Kismet/KismetMathLibrary.h"
@@ -20,6 +21,7 @@
 /*stuff for inputs*/
 #include "EnhancedInputComponent.h"
 #include "../GeneralGame/InteractableObject.h"
+#include "Components/WidgetInteractionComponent.h"
 
 // Sets default values
 AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
@@ -49,12 +51,19 @@ AGoblinGambline_PlayerBase::AGoblinGambline_PlayerBase()
     StreetBeggingComp = CreateDefaultSubobject<UStreetBeggingComponent>(TEXT("StreetBeggingComp"));
     StreetBeggingComp->InitBeggingComponent(StreetBeggingRadius, PlayerWallet);
 	StreetBeggingComp->DeactivateBegging();
+
+	WidgetInteractComp = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("WidgetInteraction"));
+	WidgetInteractComp->bShowDebug = true;
+	WidgetInteractComp->InteractionSource = EWidgetInteractionSource::World;
+	WidgetInteractComp->SetupAttachment(PlayerCamera);
 }
 
 // Called when the game starts or when spawned
 void AGoblinGambline_PlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	WidgetInteractComp->VirtualUserIndex = FMath::Rand();
 
 }
 
@@ -158,4 +167,14 @@ APlayerController* AGoblinGambline_PlayerBase::GetPlayerController()
 void AGoblinGambline_PlayerBase::GoblinBeg()
 {
     StreetBeggingComp->ActivateBegging();
+}
+
+void AGoblinGambline_PlayerBase::WidgetInteractPressed()
+{
+	WidgetInteractComp->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void AGoblinGambline_PlayerBase::WidgetInteractReleased()
+{
+	WidgetInteractComp->ReleasePointerKey(EKeys::LeftMouseButton);
 }

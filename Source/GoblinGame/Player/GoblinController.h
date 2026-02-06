@@ -49,8 +49,9 @@ public:
 	void PlayerBeg();
 
 	/* Gambling Functions */
-
 	void SeatExit();
+	void WidgetInteractPressed();
+	void WidgetInteractReleased();
 	
 protected:
 
@@ -108,4 +109,7 @@ protected:
 	/** Card Table Actions */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ExitAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* WidgetInteractAction;
 };

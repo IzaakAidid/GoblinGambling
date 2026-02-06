@@ -15,6 +15,8 @@ void AGoblinController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(GameplayInputContext, 0);
 	}
+
+	bEnableClickEvents = true;
 }
 
 void AGoblinController::AcknowledgePossession(APawn* aPawn)
@@ -79,6 +81,9 @@ void AGoblinController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(BegAction, ETriggerEvent::Triggered, this, &AGoblinController::PlayerBeg);
 
 		EnhancedInputComponent->BindAction(ExitAction, ETriggerEvent::Triggered, this, &AGoblinController::SeatExit);
+
+		EnhancedInputComponent->BindAction(WidgetInteractAction, ETriggerEvent::Started, this, &AGoblinController::WidgetInteractPressed);
+		EnhancedInputComponent->BindAction(WidgetInteractAction, ETriggerEvent::Completed, this, &AGoblinController::WidgetInteractReleased);
 	}
 }
 
@@ -122,6 +127,8 @@ void AGoblinController::PlayerZoom(const FInputActionValue& Value)
 	{
 		PlayerGoblin->GoblinZoom(Value);
 	}
+
+	Server_PlayerZoom(Value);
 }
 
 void AGoblinController::PlayerBeg()
@@ -141,6 +148,22 @@ void AGoblinController::SeatExit()
         PlayerSeat->EmptySeat();
 		SwapToGoblinInput();
 		PlayerSeat = nullptr;
+	}
+}
+
+void AGoblinController::WidgetInteractPressed()
+{
+	if (PlayerGoblin)
+	{
+		PlayerGoblin->WidgetInteractPressed();
+	}
+}
+
+void AGoblinController::WidgetInteractReleased()
+{
+	if (PlayerGoblin)
+	{
+		PlayerGoblin->WidgetInteractReleased();
 	}
 }
 
@@ -166,6 +189,10 @@ void AGoblinController::Server_PlayerInteract_Implementation()
 
 void AGoblinController::Server_PlayerZoom_Implementation(const FInputActionValue& Value)
 {
+	if (PlayerGoblin)
+	{
+		PlayerGoblin->GoblinZoom(Value);
+	}
 }
 
 void AGoblinController::Server_PlayerBeg_Implementation()

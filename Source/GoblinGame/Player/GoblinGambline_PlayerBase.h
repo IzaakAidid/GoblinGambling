@@ -15,6 +15,7 @@ struct FInputActionValue;
 class USpringArmComponent;
 class USphereComponent;
 class UStreetBeggingComponent;
+class UWidgetInteractionComponent;
 
 
 UCLASS()
@@ -40,6 +41,9 @@ protected:
 	/** Player Camera  */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UWidgetInteractionComponent* WidgetInteractComp;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Wallet, meta = (AllowPrivateAccess = "true"))
 	//class AGoblinPlayerHUD* PlayerHUD;
@@ -68,6 +72,9 @@ public:
 	void GoblinInteract();
 	void GoblinZoom(const FInputActionValue& Value);
     void GoblinBeg();
+
+	void WidgetInteractPressed();
+	void WidgetInteractReleased();
 
 	APlayerController* GetPlayerController();
 

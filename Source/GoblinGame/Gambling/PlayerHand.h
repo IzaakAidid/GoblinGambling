@@ -26,7 +26,7 @@ protected:
 
 public:	
 
-    void SetActivePlayerWallet(AActor* playerActor);
+    virtual void SetActivePlayerWallet(AActor* playerActor);
 
-    void ClearActivePlayerWallet() { WalletComponent = nullptr; GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, TEXT("I lost the wallet")); }
+	virtual void ClearActivePlayerWallet() { WalletComponent = nullptr; }
 };

@@ -3,10 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CardTable.h"
+#include "Gambling/CardTable.h"
 #include "BlackjackTable.generated.h"
-
-class APlayingCard;
 
 /**
  * 
@@ -16,12 +14,4 @@ class GOBLINGAME_API ABlackjackTable : public ACardTable
 {
 	GENERATED_BODY()
 	
-public:
-
-	void SpawnCard();
-
-protected:
-
-	UPROPERTY()
-	TSubclassOf<APlayingCard> PlayingCardBP;
 };

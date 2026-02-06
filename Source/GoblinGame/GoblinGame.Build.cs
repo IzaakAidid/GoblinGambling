@@ -13,7 +13,7 @@ public class GoblinGame : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 
 		PublicIncludePaths.AddRange(new string[] { "GoblinGame", "GoblinGame/Currency", "GoblinGame/Gambling", "GoblinGame/GeneralGame", "GoblinGame/ObjectPooling", "GoblinGame/Player",
-            "GoblinGame/StreetNPC", "GoblinGame/UI"
+            "GoblinGame/StreetNPC", "GoblinGame/UI", "GoblinGame/Gambling/Blackjack"
             });
 
 		// Uncomment if you are using Slate UI

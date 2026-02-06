@@ -24,7 +24,5 @@ void APlayerHand::SetActivePlayerWallet(AActor* playerActor)
 	if (playerActor)
 	{
 		WalletComponent = playerActor->FindComponentByClass<UGoblinWalletComponent>();
-
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("I have the wallet"));
     }
 }
