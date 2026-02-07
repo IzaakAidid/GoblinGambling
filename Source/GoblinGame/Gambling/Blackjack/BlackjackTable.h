@@ -13,5 +13,19 @@ UCLASS()
 class GOBLINGAME_API ABlackjackTable : public ACardTable
 {
 	GENERATED_BODY()
+
+	ABlackjackTable();
+
+protected:
+
+    virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UArrowComponent* DealerHandLocation;
+
+public:
+
+	UFUNCTION(NetMulticast, Reliable)
+	void NMC_DealCards();
 	
 };

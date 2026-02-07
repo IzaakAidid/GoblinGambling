@@ -37,7 +37,7 @@ protected:
 	UDeckOfCards* DeckOfCards;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<AActor> CardBP;
+	TSubclassOf<APlayingCard> CardBP;
 
 public:	
 

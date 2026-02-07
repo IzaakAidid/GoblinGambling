@@ -5,11 +5,16 @@
 #include "Components/WidgetComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GoblinWalletComponent.h"
+#include "Components/ArrowComponent.h"
 
 ABlackjackHand::ABlackjackHand()
 {
+    DirectionToPlayer = CreateDefaultSubobject<UArrowComponent>(TEXT("DirectionToPlayer"));
+    RootComponent = DirectionToPlayer;
+
     BetPlacerComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("BetPlacerComp"));
     BetPlacerComponent->SetVisibility(false);
+    BetPlacerComponent->SetupAttachment(RootComponent);
 }
 
 void ABlackjackHand::SetActivePlayerWallet(AActor* playerActor)
@@ -32,9 +37,14 @@ void ABlackjackHand::ClearActivePlayerWallet()
 
 void ABlackjackHand::Server_PlaceBet_Implementation(int value)
 {
-    if (WalletComponent->GetHeldGoblinBucks() > value)
+    if (WalletComponent->GetHeldGoblinBucks() >= value)
     { 
         WalletComponent->RemoveGoblinBucks(value);
+
+        MyBetPlacedDelegate.ExecuteIfBound();
+
+        Client_HideBetPlacer();
+
         return;
     }
 
@@ -54,4 +64,10 @@ void ABlackjackHand::Server_PlaceBet_Implementation(int value)
 void ABlackjackHand::Client_ShowBetPlacer_Implementation()
 {
     BetPlacerComponent->SetVisibility(true);
+}
+
+
+void ABlackjackHand::Client_HideBetPlacer_Implementation()
+{
+    BetPlacerComponent->SetVisibility(false);
 }

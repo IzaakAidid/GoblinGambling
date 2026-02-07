@@ -7,6 +7,9 @@
 #include "BlackjackHand.generated.h"
 
 class UWidgetComponent;
+class UArrowComponent;
+
+DECLARE_DELEGATE(FOnBetPlaced);
 
 /**
  * 
@@ -26,10 +29,18 @@ public:
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void Server_PlaceBet(int value);
 
+    FOnBetPlaced MyBetPlacedDelegate;
+
 protected:
 
 	UFUNCTION(Client, Reliable)
 	void Client_ShowBetPlacer();
+
+	UFUNCTION(Client, Reliable)
+	void Client_HideBetPlacer();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UArrowComponent* DirectionToPlayer;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UWidgetComponent* BetPlacerComponent;
