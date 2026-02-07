@@ -39,5 +39,6 @@ void APrizeShopBase::Tick(float DeltaTime)
 
 void APrizeShopBase::Interact_Implementation(AGoblinGambline_PlayerBase* Player)
 {
+	int x = 2;
 }
 
