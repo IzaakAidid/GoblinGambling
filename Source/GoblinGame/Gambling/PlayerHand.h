@@ -7,6 +7,9 @@
 #include "PlayerHand.generated.h"
 
 class UGoblinWalletComponent;
+class UWidgetComponent;
+
+DECLARE_DELEGATE(FOnBetPlaced);
 
 UCLASS()
 class GOBLINGAME_API APlayerHand : public AActor
@@ -21,12 +24,31 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite) 
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Replicated) 
 	UGoblinWalletComponent* WalletComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UWidgetComponent* BetPlacerComponent;
 
 public:	
 
+	UFUNCTION(Client, Reliable)
+	virtual void Client_ShowBetPlacer();
+
+	UFUNCTION(Client, Reliable)
+	virtual void Client_HideBetPlacer();
+
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+	virtual void Server_PlaceBet(int value);
+
     virtual void SetActivePlayerWallet(AActor* playerActor);
 
-	virtual void ClearActivePlayerWallet() { WalletComponent = nullptr; }
+	virtual void ClearActivePlayerWallet();
+
+	bool IsHandActive() { if (WalletComponent) return true; else return false; }
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bCanBet = true;
+
+	FOnBetPlaced MyBetPlacedDelegate;
 };

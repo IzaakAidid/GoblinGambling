@@ -6,10 +6,7 @@
 #include "Gambling/PlayerHand.h"
 #include "BlackjackHand.generated.h"
 
-class UWidgetComponent;
 class UArrowComponent;
-
-DECLARE_DELEGATE(FOnBetPlaced);
 
 /**
  * 
@@ -23,25 +20,8 @@ class GOBLINGAME_API ABlackjackHand : public APlayerHand
 	
 public:
 
-	virtual void SetActivePlayerWallet(AActor* playerActor) override;
-	virtual void ClearActivePlayerWallet() override;
-
-	UFUNCTION(Server, Reliable, BlueprintCallable)
-	void Server_PlaceBet(int value);
-
-    FOnBetPlaced MyBetPlacedDelegate;
-
 protected:
-
-	UFUNCTION(Client, Reliable)
-	void Client_ShowBetPlacer();
-
-	UFUNCTION(Client, Reliable)
-	void Client_HideBetPlacer();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UArrowComponent* DirectionToPlayer;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UWidgetComponent* BetPlacerComponent;
 };

@@ -10,6 +10,7 @@ class UArrowComponent;
 class APlayerHand;
 class UDeckOfCards;
 class APlayingCard;
+class UWidgetComponent;
 
 UCLASS(Blueprintable)
 class GOBLINGAME_API ACardTable : public AActor
@@ -28,7 +29,7 @@ protected:
 	UStaticMeshComponent* StaticMesh;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    APlayerHand* PlayerHandActor;
+    TArray<APlayerHand*> PlayerHandActors;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UDeckOfCards> DeckBP;
@@ -39,6 +40,20 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<APlayingCard> CardBP;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UWidgetComponent* BetsClosingWidget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bAreBetsClosed = false;
+
 public:	
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void NMC_BetPlaced();
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_BetPlaced();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void BetsClosed();
 
 };

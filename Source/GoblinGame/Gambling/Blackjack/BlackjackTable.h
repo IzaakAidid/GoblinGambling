@@ -6,6 +6,8 @@
 #include "Gambling/CardTable.h"
 #include "BlackjackTable.generated.h"
 
+class UWidgetComponent;
+
 /**
  * 
  */

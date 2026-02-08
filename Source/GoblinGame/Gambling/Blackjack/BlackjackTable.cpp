@@ -6,29 +6,26 @@
 #include "DeckOfCards.h"
 #include "PlayingCard.h"
 #include "Components/ArrowComponent.h"
+#include "Components/WidgetComponent.h"
+#include "Blueprint/UserWidget.h"
+
 
 ABlackjackTable::ABlackjackTable()
 {
     DealerHandLocation = CreateDefaultSubobject<UArrowComponent>(TEXT("DealerHandLocation"));
     DealerHandLocation->SetupAttachment(RootComponent);
-
-    SetReplicates(true);
 }
 
 void ABlackjackTable::BeginPlay()
 {
     Super::BeginPlay();
 
-    if(ABlackjackHand* blackjackHand = Cast<ABlackjackHand>(PlayerHandActor))
-    {
-        blackjackHand->MyBetPlacedDelegate.BindUObject(this, &ABlackjackTable::NMC_DealCards);
-    }
 }
 
 //This will need to be updated to account for multiple players.
 void ABlackjackTable::NMC_DealCards_Implementation()
 {
-    DeckOfCards->ShuffleDeck();
+   /* DeckOfCards->ShuffleDeck();
 
     APlayingCard* Card1 = GetWorld()->SpawnActor<APlayingCard>(CardBP);
     APlayingCard* Card2 = GetWorld()->SpawnActor<APlayingCard>(CardBP);
@@ -43,5 +40,5 @@ void ABlackjackTable::NMC_DealCards_Implementation()
     Card1->SetCardData(DeckOfCards->DrawTopCard());
     Card2->SetCardData(DeckOfCards->DrawTopCard());
     Card3->SetCardData(DeckOfCards->DrawTopCard());
-    Card4->SetCardData(DeckOfCards->DrawTopCard());
+    Card4->SetCardData(DeckOfCards->DrawTopCard());*/
 }
